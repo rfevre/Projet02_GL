@@ -1,8 +1,0 @@
-
-
-class JeuQuestions {
-    public static void main(String[] args) {
-	NoeudArbre noeud = new NoeudArbre("cheval");
-	System.out.println(noeud.toString());
-    }	
-}
