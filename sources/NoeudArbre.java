@@ -28,7 +28,7 @@ public class NoeudArbre {
     }
 
     /**
-     * Affiche l'ensemble de l'arbre en parcours Préfixe
+     * Fonction qui affiche l'ensemble de l'arbre en parcours Préfixe
      */
     public String toString() {
 	String retour = this.contenu+"\n";
@@ -60,9 +60,9 @@ public class NoeudArbre {
 	    System.out.println("Est-ce "+this.contenu);
 	    reponse=Clavier.readString();
 	    if (reponse.equals("oui"))
-		System.out.println("j'ai gagné");
+		System.out.println("J'ai gagné !");
 	    if (reponse.equals("non")) {
-		System.out.println("j'ai perdu");
+		System.out.println("J'ai perdu :(");
 		this.apprendre();
 	    }	    
 	}	
@@ -74,12 +74,12 @@ public class NoeudArbre {
     public void apprendre() {
 	String reponse="";
 	
-	System.out.println("Quel est l'animal choisi ?");
+	System.out.println("Mais quel est l'animal que tu as choisi ?");
 	reponse=Clavier.readString();
 	this.droit=new NoeudArbre(reponse);//on met le nouveau animal a droite
 	this.gauche=new NoeudArbre(this.contenu);//on met l'ancien animal a gauche
 	
-	System.out.println("Quel est la nouvelle question pour definir l'animal ?");
+	System.out.println("Quel est la nouvelle question pour definir cet animal ?");
 	reponse=Clavier.readString();
 	this.contenu=reponse;//en remplace l'ancien animal par la nouvelle question
     }
@@ -90,31 +90,31 @@ public class NoeudArbre {
     public String definir(String animal) {
 	String retour="";
 	
-	if (this.gauche!=null && this.droit!=null) { //si c'est une question
+	if (this.gauche!=null && this.droit!=null) {             //si c'est une question
 	    retour = this.gauche.definir(animal);
-	    if (!retour.equals("")) {                        // on test si dans le sous arbre de gauche on trouve "animal"
-		retour = this.contenu+ " -> non; " + retour; //si il le trouve, on rajoute "non" a la chaine de caractére
+	    if (!retour.equals("")) {                            //on test si dans le sous arbre de gauche on trouve "animal"
+		retour = this.contenu+ " -> non; " + retour;     //si il le trouve, on rajoute "non" a la chaine de caractére
 	    }
-	    else {
+	    else {                                               //sinon
 		retour = this.droit.definir(animal);
-		if (!retour.equals(""))                          // on test si dans le sous arbre de droite on trouve "animal"
+		if (!retour.equals(""))                          //on test si dans le sous arbre de droite on trouve "animal"
 		    retour = this.contenu+ " -> oui; " + retour; //si il le trouve, on rejoute "oui" a la chaine de caractére
 		else
 		    retour = "";
 	    }	  
 	}
 	
-	else { //sinon si ce n'est pas une question
-	    if(this.contenu.equals(animal)) //si "animal" est trouvé dans le contenu du noeud
-		retour = "=> "+animal;      //on renvoie son nom
-	    else                            //sinon
-		retour = "";                //on indentique qu'il n'est pas présent dans ce noeud ci
+	else {                                                   //sinon si ce n'est pas une question
+	    if(this.contenu.equals(animal))                      //si "animal" est trouvé dans le contenu du noeud
+		retour = "=> "+animal;                           //on renvoie son nom
+	    else                                                 //sinon
+		retour = "";                                     //on indentique qu'il n'est pas présent dans ce noeud ci
 	}
 	return retour;
     }
 
     /**
-     *
+     * Fonction qui permet de créer un arbre automatiquement, à partir d'un tableau qu'on lui envoie
      */
     public static NoeudArbre creerArbre(String args[]) {
         int i = 2;
@@ -128,10 +128,10 @@ public class NoeudArbre {
     public static NoeudArbre creerArbre(String args[], int cursor) {
         NoeudArbre tmp = null;
         if (cursor < args.length) {
-            if (!isQuestion(args[cursor])) {    //Si c'est une feuille
+            if (!isQuestion(args[cursor])) {            //Si c'est une feuille
                 tmp = new NoeudArbre(args[cursor]);
 	    }
-            else {                                //Si c'est un noeud
+            else {                                      //Si c'est un noeud
                 tmp = new NoeudArbre(args[cursor],
 				     creerArbre(args,++cursor),
 				     creerArbre(args,++cursor));
@@ -140,34 +140,62 @@ public class NoeudArbre {
         return tmp;
     }
 
-    public static boolean isQuestion(String str) {
+    /**
+     * Fonction qui test si la phrase envoyé en paramètre est une question
+     */
+    public static boolean isQuestion(String str) {      
 	return str.charAt(str.length()-1)=='?';
     }
     
     /**
-     * Fonction qui construit l'arbre, et lance le jeu
+     * Fonction principal qui construit l'arbre, et lance le jeu
      */
     public static void main(String[] args) {
-	NoeudArbre aboie,noeud;
-	NoeudArbre test;
-	if (args.length == 0) {
-	    aboie = new NoeudArbre("Est-ce qu’il aboie ?",
-		    new NoeudArbre("un cheval"),
-		    new NoeudArbre("un chien"));
-	    noeud = new NoeudArbre("Est-ce un mammifère ?",
-		    new NoeudArbre("un crocodile"),
-		    aboie);
-	}
-	else {
-	    test = this.creerArbre(args);
-	    /* noeud = new NoeudArbre(args[0],
-		    new NoeudArbre(args[1]),
-		    new NoeudArbre(args[2]));*/
-	}
-	
-	noeud.rechercherAnimal();
-	//System.out.println(noeud.definir("un chien"));
-	System.out.println("\n"+noeud.toString());
+	NoeudArbre sousBranche,arbre;
+	String definir="";
+	char reponse='n';
+
+	do {
+	    System.out.println();
+	    System.out.println("------------------------------------------------");
+	    System.out.println("-        Projet 2 : Les Arbres Binaires        -");
+	    System.out.println("------------------------------------------------");
+	    System.out.println();
+
+	    if (args.length == 0) {                                         //Si pas d'arguments
+		sousBranche = new NoeudArbre("Est-ce qu’il aboie ?",        //On créer un abre par défaut
+					     new NoeudArbre("un cheval"), 
+					     new NoeudArbre("un chien"));
+		arbre = new NoeudArbre("Est-ce un mammifère ?",
+				       new NoeudArbre("un crocodile"),
+				       sousBranche);
+		arbre.rechercherAnimal();                                   //On lance la recherche d'un animal
+	    }
+	    else {                                                          //Sinon
+		if (args[0].equals("--definir")){                           //Si l'argument d'indice 0 est égale à "--definir" 
+		    arbre = creerArbre(args);                              
+		    definir = arbre.definir(args[1]);                       //On lance la recherche automatique d'un animal
+		    if (definir != "")                                      //défini par l'argument d'indice 1
+			System.out.println(definir);
+		    else
+			System.out.println("Animal non trouvé");
+		}
+		else {                                                      //Si pas d'argument spécial à l'indice 0
+		    arbre = creerArbre(args,0);
+		    arbre.rechercherAnimal();                               //On lance la recherche d'un animal
+		}
+	    }
+	    
+	    System.out.println();
+	    System.out.println("------------------------------------------------");
+	    System.out.println("-                  Arbre Final                 -");
+	    System.out.println("------------------------------------------------");
+	    System.out.println();
+	    System.out.println(arbre.toString());
+	    System.out.println();
+	    System.out.println("Voulez vous quitter ? (o/n)");
+	    reponse=Clavier.readChar();
+	}while(reponse !='o');
     }
     
 }
