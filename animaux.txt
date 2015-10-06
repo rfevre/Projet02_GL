@@ -1,0 +1,1 @@
+"Est-ce un mammifère ?" "Est-ce qu'il a des pattes ?" "Est-ce qu'il vit dans l'eau ?" "un serpent" "un poisson" "Est-ce qu'il a huit pattes ?" "Est-ce qu'il a six pattes ?" "un crocodile" "une fourmi" "une araignée" "Est-ce qu'il aboie ?" "Est-ce qu'il rugit ?" "Est-ce qu'il vit dans l'eau ?" "un cheval" "Est-ce qu'il a des dents ?" "une baleine" "un dauphin" "un lion" "un chien"
